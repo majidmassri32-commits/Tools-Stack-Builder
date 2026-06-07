@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Tools Stack Builder — The Budget Solopreneur</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root {
+  --bg: #0a0a0a;
+  --surface: #111111;
+  --surface2: #181818;
+  --surface3: #1f1f1f;
+  --border: #222;
+  --border2: #2e2e2e;
+  --green: #4ade80;
+  --green-dim: #0d1f10;
+  --green-mid: #22c55e;
+  --green-glow: rgba(74,222,128,0.15);
+  --text: #f0f0f0;
+  --muted: #666;
+  --muted2: #444;
+  --amber: #fbbf24;
+  --blue: #60a5fa;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* NOISE OVERLAY */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+}
+
+/* HEADER */
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+  animation: fadeUp 0.6s ease both;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--green);
+  background: var(--green-dim);
+  border: 0.5px solid rgba(74,222,128,0.2);
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+}
+
+.badge-dot {
+  width: 5px;
+  height: 5px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
+
+h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+}
+
+h1 em {
+  font-style: normal;
+  color: var(--green);
+}
+
+.subtitle {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* PROGRESS */
+.progress-wrap {
+  margin-bottom: 2.5rem;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+
+.progress-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 12px;
+}
+
+.pstep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  max-width: 120px;
+}
+
+.pstep-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border2);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted2);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.pstep.active .pstep-circle {
+  border-color: var(--green);
+  background: var(--green-dim);
+  color: var(--green);
+  box-shadow: 0 0 16px var(--green-glow);
+}
+
+.pstep.done .pstep-circle {
+  border-color: var(--green);
+  background: var(--green);
+  color: #0a1a0a;
+}
+
+.pstep-label {
+  font-size: 10px;
+  color: var(--muted2);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.pstep.active .pstep-label { color: var(--green); }
+.pstep.done .pstep-label { color: var(--muted); }
+
+.pline {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  margin-bottom: 18px;
+  max-width: 60px;
+  transition: background 0.3s;
+}
+
+.pline.done { background: var(--green); }
+
+/* CARD */
+.card {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  animation: fadeUp 0.5s ease both;
+}
+
+.card-header {
+  padding: 1.5rem 1.75rem 1.25rem;
+  border-bottom: 0.5px solid var(--border);
+  background: linear-gradient(135deg, var(--surface2) 0%, var(--surface) 100%);
+}
+
+.step-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--green);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.card-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.card-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.card-body {
+  padding: 1.5rem 1.75rem;
+}
+
+/* OPTIONS */
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option {
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+}
+
+.option:hover {
+  border-color: var(--border2);
+  background: var(--surface3);
+  transform: translateX(3px);
+}
+
+.option.selected {
+  border-color: var(--green);
+  background: var(--green-dim);
+  box-shadow: 0 0 20px var(--green-glow);
+}
+
+.option-icon {
+  font-size: 22px;
+  width: 36px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.option-text {}
+.option-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.option-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.option.selected .option-title { color: var(--green); }
+
+/* NEXT BTN */
+.next-btn {
+  margin-top: 1.25rem;
+  width: 100%;
+  background: var(--green);
+  color: #0a1a0a;
+  border: none;
+  border-radius: 10px;
+  padding: 13px 24px;
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: 0.3px;
+}
+
+.next-btn:hover { background: var(--green-mid); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(74,222,128,0.2); }
+.next-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* RESULT */
+.result-wrap { display: none; }
+.result-wrap.visible { display: block; animation: fadeUp 0.5s ease both; }
+
+.result-header {
+  text-align: center;
+  padding: 2rem 1.75rem 1.5rem;
+  border-bottom: 0.5px solid var(--border);
+  background: linear-gradient(135deg, var(--green-dim) 0%, var(--surface) 100%);
+}
+
+.result-icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.result-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.result-sub {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.stack-section {
+  padding: 1.5rem 1.75rem;
+  border-bottom: 0.5px solid var(--border);
+}
+
+.stack-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted2);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.tool-card {
+  background: var(--surface2);
+  border: 0.5px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  transition: border-color 0.15s;
+}
+
+.tool-card:hover { border-color: var(--border2); }
+.tool-card:last-child { margin-bottom: 0; }
+
+.tool-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--green-dim);
+  border: 0.5px solid rgba(74,222,128,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--green);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.tool-info { flex: 1; }
+
+.tool-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tool-tag {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--green-dim);
+  color: var(--green);
+  font-family: 'DM Mono', monospace;
+}
+
+.tool-tag.amber {
+  background: rgba(251,191,36,0.1);
+  color: var(--amber);
+}
+
+.tool-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.tool-link {
+  font-size: 12px;
+  color: var(--green);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+}
+
+.tool-link:hover { color: var(--green-mid); text-decoration: underline; }
+.tool-link.plain { color: var(--muted); }
+.tool-link.plain:hover { color: var(--text); }
+
+/* ROADMAP */
+.roadmap {
+  padding: 1.5rem 1.75rem;
+  border-bottom: 0.5px solid var(--border);
+}
+
+.roadmap-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.roadmap-step {
+  display: flex;
+  gap: 14px;
+  position: relative;
+}
+
+.roadmap-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 32px;
+  bottom: -8px;
+  width: 1px;
+  background: var(--border);
+}
+
+.roadmap-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.roadmap-content {
+  padding-bottom: 20px;
+}
+
+.roadmap-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.roadmap-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* SHARE */
+.share-section {
+  padding: 1.5rem 1.75rem;
+  text-align: center;
+}
+
+.share-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.share-sub {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.share-btns {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.share-btn {
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.share-btn.green { background: var(--green); color: #0a1a0a; }
+.share-btn.green:hover { background: var(--green-mid); }
+.share-btn.ghost { background: var(--surface2); border: 0.5px solid var(--border2); color: var(--muted); }
+.share-btn.ghost:hover { color: var(--text); border-color: var(--border2); }
+
+.restart-btn {
+  margin-top: 12px;
+  background: transparent;
+  border: none;
+  color: var(--muted2);
+  font-size: 12px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  text-decoration: underline;
+}
+.restart-btn:hover { color: var(--muted); }
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  margin-top: 2.5rem;
+  font-size: 12px;
+  color: var(--muted2);
+}
+.footer a { color: var(--green); text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* MOBILE */
+@media(max-width:480px) {
+  .wrap { padding: 2rem 1rem 4rem; }
+  .card-header, .card-body, .stack-section, .roadmap, .share-section { padding-left: 1.25rem; padding-right: 1.25rem; }
+  h1 { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="header">
+    <div class="badge"><div class="badge-dot"></div> Free Tool · No Sign-up Required</div>
+    <h1>Find Your <em>Perfect</em><br>Free Tools Stack</h1>
+    <p class="subtitle">Answer 3 quick questions and get your personalised free toolkit — exactly what to use, in what order, to build your online income from scratch.</p>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-wrap">
+    <div class="progress-steps">
+      <div class="pstep active" id="ps1">
+        <div class="pstep-circle" id="pc1">1</div>
+        <div class="pstep-label">Goal</div>
+      </div>
+      <div class="pline" id="pl1"></div>
+      <div class="pstep" id="ps2">
+        <div class="pstep-circle" id="pc2">2</div>
+        <div class="pstep-label">Budget</div>
+      </div>
+      <div class="pline" id="pl2"></div>
+      <div class="pstep" id="ps3">
+        <div class="pstep-circle" id="pc3">3</div>
+        <div class="pstep-label">Level</div>
+      </div>
+      <div class="pline" id="pl3"></div>
+      <div class="pstep" id="ps4">
+        <div class="pstep-circle" id="pc4">✦</div>
+        <div class="pstep-label">Your Stack</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="card" id="step1">
+    <div class="card-header">
+      <div class="step-num">Step 01 of 03</div>
+      <div class="card-title">What are you trying to build?</div>
+      <div class="card-sub">Pick the one that fits where you want to go</div>
+    </div>
+    <div class="card-body">
+      <div class="options" id="opts1">
+        <div class="option" onclick="selectOption('opts1',this,'digital')" data-val="digital">
+          <div class="option-icon">📦</div>
+          <div class="option-text">
+            <div class="option-title">Sell digital products</div>
+            <div class="option-desc">Ebooks, templates, courses, prompt packs — create once, sell forever</div>
+          </div>
+        </div>
+        <div class="option" onclick="selectOption('opts1',this,'email')" data-val="email">
+          <div class="option-icon">📧</div>
+          <div class="option-text">
+            <div class="option-title">Build an email list</div>
+            <div class="option-desc">Grow an audience you own — no algorithm, no ads, just direct access</div>
+          </div>
+        </div>
+        <div class="option" onclick="selectOption('opts1',this,'affiliate')" data-val="affiliate">
+          <div class="option-icon">🔗</div>
+          <div class="option-text">
+            <div class="option-title">Earn affiliate commissions</div>
+            <div class="option-desc">Recommend tools and products, earn a cut of every sale you drive</div>
+          </div>
+        </div>
+        <div class="option" onclick="selectOption('opts1',this,'all')" data-val="all">
+          <div class="option-icon">🚀</div>
+          <div class="option-text">
+            <div class="option-title">All three — the full setup</div>
+            <div class="option-desc">Build a complete online income system from the ground up</div>
+          </div>
+        </div>
+      </div>
+      <button class="next-btn" id="next1" onclick="nextStep(1)" disabled>
+        Continue →
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="card" id="step2" style="display:none">
+    <div class="card-header">
+      <div class="step-num">Step 02 of 03</div>
+      <div class="card-title">What's your monthly budget?</div>
+      <div class="card-sub">Be honest — the right tools depend on this</div>
+    </div>
+    <div class="card-body">
+      <div class="options" id="opts2">
+        <div class="option" onclick="selectOption('opts2',this,'zero')" data-val="zero">
+          <div class="option-icon">🆓</div>
+          <div class="option-text">
+            <div class="option-title">£0 — completely free only</div>
+            <div class="option-desc">I need to start without spending anything at all</div>
+          </div>
+        </div>
+        <div class="option" onclick="selectOption('opts2',this,'low')" data-val="low">
+          <div class="option-icon">💷</div>
+          <div class="option-text">
+            <div class="option-title">Under £20/month</div>
+            <div class="option-desc">I can invest a small amount if it genuinely helps</div>
+          </div>
+        </div>
+        <div class="option" onclick="selectOption('opts2',this,'mid')" data-val="mid">
+          <div class="option-icon">💰</div>
+          <div class="option-text">
+            <div class="option-title">Under £50/month</div>
+            <div class="option-desc">I'm serious and willing to invest in the right tools</div>
+          </div>
+        </div>
+      </div>
+      <button class="next-btn" id="next2" onclick="nextStep(2)" disabled>
+        Continue →
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="card" id="step3" style="display:none">
+    <div class="card-header">
+      <div class="step-num">Step 03 of 03</div>
+      <div class="card-title">How technical are you?</div>
+      <div class="card-sub">No wrong answer — this just helps us match you to the right tools</div>
+    </div>
+    <div class="card-body">
+      <div class="options" id="opts3">
+        <div class="option" onclick="selectOption('opts3',this,'beginner')" data-val="beginner">
+          <div class="option-icon">🌱</div>
+          <div class="option-text">
+            <div class="option-title">Complete beginner</div>
+            <div class="option-desc">I'm new to all of this — I need simple, guided tools</div>
+          </div>
+        </div>
+        <div class="option" onclick="selectOption('opts3',this,'some')" data-val="some">
+          <div class="option-icon">⚡</div>
+          <div class="option-text">
+            <div class="option-title">Some experience</div>
+            <div class="option-desc">I've tried a few things online and can figure stuff out</div>
+          </div>
+        </div>
+        <div class="option" onclick="selectOption('opts3',this,'comfortable')" data-val="comfortable">
+          <div class="option-icon">🔧</div>
+          <div class="option-text">
+            <div class="option-title">Comfortable with tech</div>
+            <div class="option-desc">I can handle more powerful tools even if there's a learning curve</div>
+          </div>
+        </div>
+      </div>
+      <button class="next-btn" id="next3" onclick="buildStack()" disabled>
+        Build My Free Stack ✦
+      </button>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-wrap" id="result">
+    <div class="card">
+      <div class="result-header">
+        <div class="result-icon">✦</div>
+        <div class="result-title" id="result-title">Your Personalised Free Stack</div>
+        <div class="result-sub" id="result-sub">Based on your answers, here's exactly what to use and in what order.</div>
+      </div>
+
+      <div class="stack-section">
+        <div class="stack-label">Your recommended tools — in order</div>
+        <div id="tools-list"></div>
+      </div>
+
+      <div class="roadmap">
+        <div class="stack-label">Your 30-day action plan</div>
+        <div class="roadmap-steps" id="roadmap-steps"></div>
+      </div>
+
+      <div class="share-section">
+        <div class="share-title">Found this useful?</div>
+        <div class="share-sub">Share it with someone who's trying to start an online business with no budget. It's completely free — no sign-up, no catch.</div>
+        <div class="share-btns">
+          <button class="share-btn green" onclick="copyLink()">📋 Copy link</button>
+          <a class="share-btn ghost" href="https://www.thebudgetsolopreneur.net/blog/" target="_blank">📖 Read the free guides</a>
+        </div>
+        <br>
+        <button class="restart-btn" onclick="restart()">↺ Start again with different answers</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Built by <a href="https://www.thebudgetsolopreneur.net" target="_blank">The Budget Solopreneur</a> · Free guides for broke beginners
+  </div>
+
+</div>
+
+<script>
+const answers = { goal: null, budget: null, level: null };
+
+function selectOption(groupId, el, val) {
+  document.querySelectorAll('#' + groupId + ' .option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  if (groupId === 'opts1') answers.goal = val;
+  else if (groupId === 'opts2') answers.budget = val;
+  else if (groupId === 'opts3') answers.level = val;
+  const btnMap = { opts1: 'next1', opts2: 'next2', opts3: 'next3' };
+  document.getElementById(btnMap[groupId]).disabled = false;
+}
+
+function nextStep(step) {
+  document.getElementById('step' + step).style.display = 'none';
+  document.getElementById('step' + (step + 1)).style.display = 'block';
+  document.getElementById('step' + (step + 1)).style.animation = 'fadeUp 0.4s ease both';
+  // update progress
+  const ps = document.getElementById('ps' + step);
+  ps.classList.remove('active');
+  ps.classList.add('done');
+  document.getElementById('pc' + step).textContent = '✓';
+  document.getElementById('pl' + step).classList.add('done');
+  document.getElementById('ps' + (step + 1)).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+const STACKS = {
+  digital: {
+    zero: {
+      beginner: {
+        title: "The Zero-Cost Digital Product Starter Stack",
+        sub: "Perfect for a complete beginner. Everything you need to create and sell your first digital product — all free, all simple.",
+        tools: [
+          { name: "Canva", tag: "Free", desc: "Design your ebook, template, or product cover in minutes. No design skills needed — hundreds of free templates built in.", link: "https://www.canva.com", linkText: "Use Canva free →" },
+          { name: "Systeme.io", tag: "Free forever", desc: "Host your product, take payments automatically, and deliver it to buyers instantly. Replaces five separate tools. No monthly fee, no transaction cut on the free plan.", link: "https://systeme.io/?sa=sa02731398297c5c32c55c9f3caf36ba73b98e3ee1", linkText: "Set up your free store →" },
+          { name: "Google Docs", tag: "Free", desc: "Write your ebook or guide here first. Clean, simple, exports as PDF. No software to install.", link: "https://docs.google.com", linkText: "Open Google Docs →" },
+          { name: "Loom", tag: "Free", desc: "Record simple screen or face videos for mini courses. Free plan gives you everything a beginner needs.", link: "https://www.loom.com", linkText: "Try Loom free →" }
+        ],
+        roadmap: [
+          { icon: "📝", title: "Week 1 — Create your product", desc: "Write a 15–25 page guide or build a template in Canva. Pick one specific problem you can solve." },
+          { icon: "🏪", title: "Week 2 — Set up your store", desc: "Create your free Systeme.io account, upload your product, write a simple sales page, test your checkout." },
+          { icon: "📣", title: "Week 3 — Get your first visitors", desc: "Post in 3 relevant Facebook groups or Reddit threads. Answer questions and mention your product naturally." },
+          { icon: "💰", title: "Week 4 — Make your first sale", desc: "Refine your sales page based on feedback. Keep promoting. Your first sale is closer than you think." }
+        ]
+      },
+      some: {
+        title: "The Free Digital Product Stack — Intermediate",
+        sub: "You've got some experience, so we're giving you tools with more power. Still completely free.",
+        tools: [
+          { name: "Systeme.io", tag: "Free forever", desc: "Your all-in-one hub. Funnels, email automation, product hosting, payment processing — all in one free account. Start here and build everything else around it.", link: "https://systeme.io/?sa=sa02731398297c5c32c55c9f3caf36ba73b98e3ee1", linkText: "Start with Systeme.io free →" },
+          { name: "Canva", tag: "Free", desc: "Design professional-looking product covers, sales page graphics, and promotional content.", link: "https://www.canva.com", linkText: "Use Canva free →" },
+          { name: "Gumroad", tag: "Free (5% fee)", desc: "Alternative product marketplace with built-in traffic. Worth listing on as a second channel alongside your main store.", link: "https://www.gumroad.com", linkText: "List on Gumroad →" },
+          { name: "Notion", tag: "Free", desc: "Build premium templates and notion dashboards as digital products. High perceived value, easy to create.", link: "https://www.notion.so", linkText: "Try Notion free →" }
+        ],
+        roadmap: [
+          { icon: "🏗️", title: "Week 1 — Build your system", desc: "Set up Systeme.io with a landing page, thank you page, and automated delivery sequence." },
+          { icon: "📦", title: "Week 2 — Create 2 products", desc: "Build a main product and a cheaper entry-level product. A low-price tripwire converts cold traffic much better." },
+          { icon: "🔀", title: "Week 3 — Build a simple funnel", desc: "Set up a basic funnel: traffic → landing page → checkout → upsell. Systeme.io handles all of this free." },
+          { icon: "📊", title: "Week 4 — Analyse and scale", desc: "Check which product gets the most interest. Double down on that. Write a blog post around the topic." }
+        ]
+      },
+      comfortable: {
+        title: "The Advanced Free Digital Product Stack",
+        sub: "You can handle powerful tools. Here's the setup that serious digital product creators use — all free.",
+        tools: [
+          { name: "Systeme.io", tag: "Free forever", desc: "Your complete business backend. Funnels, email sequences, product hosting, upsells, affiliates — all in one place, all free.", link: "https://systeme.io/?sa=sa02731398297c5c32c55c9f3caf36ba73b98e3ee1", linkText: "Set up Systeme.io →" },
+          { name: "Canva Pro (free trial)", tag: "Free trial", desc: "Get 30 days of Canva Pro free to build a full suite of product graphics, mockups, and sales assets. Cancel before the trial ends.", link: "https://www.canva.com", linkText: "Start free trial →" },
+          { name: "Notion", tag: "Free", desc: "Create high-value Notion templates and dashboards as premium products. Duplicate, customise, sell.", link: "https://www.notion.so", linkText: "Try Notion →" },
+          { name: "Gumroad", tag: "Free (5% fee)", desc: "Use as a secondary marketplace to tap into Gumroad's existing buyer base.", link: "https://www.gumroad.com", linkText: "List on Gumroad →" }
+        ],
+        roadmap: [
+          { icon: "🗺️", title: "Week 1 — Plan your product line", desc: "Map out 3 products at different price points: a free lead magnet, a £7–15 entry product, and a £27–47 main product." },
+          { icon: "⚙️", title: "Week 2 — Build your full funnel", desc: "Set up a complete funnel in Systeme.io with email automation, upsells, and delivery sequences." },
+          { icon: "📝", title: "Week 3 — Content & SEO", desc: "Write 2 blog posts targeting keywords your buyers search for. Link them to your product pages." },
+          { icon: "🔁", title: "Week 4 — Launch and iterate", desc: "Go live, collect data, and optimise. A/B test your headline. Try a different price point." }
+        ]
+      }
+    }
+  }
+};
+
+function getStack(goal, budget, level) {
+  const systemio = { name: "Systeme.io", tag: "Free forever", desc: "The all-in-one platform for building your entire online income system. Funnels, email marketing, digital product sales, and automation — completely free to start.", link: "https://systeme.io/?sa=sa02731398297c5c32c55c9f3caf36ba73b98e3ee1", linkText: "Start free with Systeme.io →" };
+  const groovefunnels = { name: "GrooveFunnels", tag: "Free plan", desc: "A beginner-friendly funnel and landing page builder. Great for your first squeeze page or sales page without any coding.", link: "https://gcm.groovesell.com/a/aUZCpSby1gqO", linkText: "Try GrooveFunnels free →" };
+  const canva = { name: "Canva", tag: "Free", desc: "Design everything — ebook covers, social graphics, lead magnet PDFs, thumbnails. Hundreds of free templates.", link: "https://www.canva.com", linkText: "Use Canva free →" };
+  const mailerlite = { name: "MailerLite", tag: "Free up to 1,000 subs", desc: "One of the most generous free email marketing plans available. Automation included, up to 1,000 subscribers free.", link: "https://www.mailerlite.com", linkText: "Try MailerLite free →" };
+  const gdocs = { name: "Google Docs", tag: "Free", desc: "Write your ebook, guide, or content here. Export as PDF instantly. No software, no cost.", link: "https://docs.google.com", linkText: "Open Google Docs →" };
+  const loom = { name: "Loom", tag: "Free", desc: "Record screen or face videos for mini courses or tutorials. Free plan is plenty to get started.", link: "https://www.loom.com", linkText: "Try Loom free →" };
+  const notion = { name: "Notion", tag: "Free", desc: "Build premium Notion templates as sellable digital products. High perceived value, easy to create.", link: "https://www.notion.so", linkText: "Try Notion free →" };
+  const wordpress = { name: "WordPress.com", tag: "Free plan", desc: "Build a blog to drive organic SEO traffic to your affiliate links and products. Free plan gets you started.", link: "https://wordpress.com", linkText: "Start free blog →" };
+  const gumroad = { name: "Gumroad", tag: "Free (5% fee)", desc: "Secondary marketplace with built-in buyers. List your products here as well as your main store for extra visibility.", link: "https://www.gumroad.com", linkText: "List on Gumroad →" };
+
+  const stacks = {
+    digital: {
+      zero: {
+        beginner: {
+          title: "Your Zero-Cost Digital Product Starter Stack",
+          sub: "Simple, beginner-friendly tools to create and sell your first digital product — everything free, zero complexity.",
+          tools: [gdocs, canva, systemio, loom],
+          roadmap: [
+            { icon: "📝", title: "Week 1 — Create your first product", desc: "Write a 15–25 page guide in Google Docs on one specific topic you know well. Design the cover in Canva." },
+            { icon: "🏪", title: "Week 2 — Set up your free store", desc: "Create your Systeme.io account, upload your product, write a simple sales page, and test your checkout." },
+            { icon: "📣", title: "Week 3 — Get your first visitors", desc: "Post in 3 relevant Facebook groups or Reddit threads. Answer questions and mention your product naturally." },
+            { icon: "💰", title: "Week 4 — Optimise for your first sale", desc: "Tweak your sales page headline. Lower your price to test conversions. Your first sale is closer than you think." }
+          ]
+        },
+        some: {
+          title: "Your Free Digital Product Stack — Intermediate",
+          sub: "More power, still zero cost. You've got experience — here's the setup to match it.",
+          tools: [systemio, canva, gumroad, notion],
+          roadmap: [
+            { icon: "🏗️", title: "Week 1 — Build your system", desc: "Set up Systeme.io with a funnel, automated delivery, and a thank-you page sequence." },
+            { icon: "📦", title: "Week 2 — Create two products", desc: "A main product and a cheaper entry-level version. The low-price option converts cold traffic far better." },
+            { icon: "🔀", title: "Week 3 — List on Gumroad too", desc: "Gumroad has its own buyer base. Listing there alongside your main store gives you a second traffic source for free." },
+            { icon: "📊", title: "Week 4 — Analyse and improve", desc: "Which product gets more interest? Double down on that topic. Write one blog post around it to start building SEO traffic." }
+          ]
+        },
+        comfortable: {
+          title: "Your Advanced Free Digital Product Stack",
+          sub: "The full power setup — everything serious digital product creators use, all free.",
+          tools: [systemio, notion, gumroad, canva],
+          roadmap: [
+            { icon: "🗺️", title: "Week 1 — Map your product line", desc: "Plan 3 products: a free lead magnet, a £7–15 entry product, and a £27–47 main product." },
+            { icon: "⚙️", title: "Week 2 — Build your full funnel", desc: "Set up a complete Systeme.io funnel with email automation, upsells, and delivery sequences." },
+            { icon: "✍️", title: "Week 3 — Blog content for SEO", desc: "Write 2 posts targeting keywords your buyers search for. Link them directly to your product pages." },
+            { icon: "🔁", title: "Week 4 — Launch and iterate", desc: "Go live. Collect data. A/B test your headline and price point. Optimise based on what converts." }
+          ]
+        }
+      },
+      low: {
+        beginner: {
+          title: "Your Budget Digital Product Stack (Under £20/month)",
+          sub: "A small investment unlocks significantly better tools. Here's the stack that makes the most of your budget.",
+          tools: [systemio, canva, loom, gdocs],
+          roadmap: [
+            { icon: "📝", title: "Week 1 — Create your product", desc: "Build a focused ebook or mini course on one specific problem. Use Google Docs and Canva." },
+            { icon: "🏪", title: "Week 2 — Launch your store", desc: "Set up Systeme.io and get your first product page live. Test the full purchase flow yourself." },
+            { icon: "🎥", title: "Week 3 — Add a video element", desc: "Record a short intro or bonus video with Loom. Adding video to your product increases perceived value." },
+            { icon: "💳", title: "Week 4 — Consider upgrading Canva", desc: "At under £10/month Canva Pro removes the watermark and unlocks premium templates — worth it once you're selling." }
+          ]
+        },
+        some: {
+          title: "Your £20/month Digital Product Stack",
+          sub: "Smart spending on the right tools makes everything easier. Here's where to put your budget.",
+          tools: [systemio, canva, notion, gumroad],
+          roadmap: [
+            { icon: "🏗️", title: "Week 1 — Set up your system", desc: "Get Systeme.io running with a full funnel. Invest time here — a good funnel earns its setup time back quickly." },
+            { icon: "📦", title: "Week 2 — Build two products", desc: "Create an entry-level and a premium product. Bundle them later at a discount to increase average order value." },
+            { icon: "🔀", title: "Week 3 — Diversify your listings", desc: "List on Gumroad and your own store simultaneously. More places to be found means more chances of a sale." },
+            { icon: "📊", title: "Week 4 — Double down on what works", desc: "Check your traffic sources. Whichever product is getting clicks — write more content around that topic." }
+          ]
+        },
+        comfortable: { title: "Your £20/month Power Stack", sub: "Advanced setup for someone comfortable with tech and ready to invest a little.", tools: [systemio, notion, gumroad, canva], roadmap: [{ icon: "⚙️", title: "Week 1 — Full system build", desc: "Build your entire funnel in Systeme.io. Landing page, upsell, email sequence, automated delivery." }, { icon: "📦", title: "Week 2 — Product suite", desc: "Create 3 products at different price points. A product suite dramatically increases revenue per visitor." }, { icon: "✍️", title: "Week 3 — SEO content", desc: "Write 3 blog posts targeting buyer-intent keywords. Link to your products naturally in each one." }, { icon: "🔁", title: "Week 4 — Optimise everything", desc: "Review conversion data. Test headlines, prices, and CTAs. Small improvements compound quickly." }] }
+      },
+      mid: {
+        beginner: { title: "Your £50/month Digital Product Stack", sub: "A proper budget means proper tools. Here's the setup that removes every barrier.", tools: [systemio, canva, loom, gdocs], roadmap: [{ icon: "📝", title: "Week 1 — Create premium content", desc: "With a budget you can afford higher quality. Create a full mini course, not just an ebook." }, { icon: "🎬", title: "Week 2 — Add video", desc: "Record proper video modules with Loom. Video products sell for 3–5x the price of a PDF." }, { icon: "🏪", title: "Week 3 — Launch properly", desc: "Set up your complete Systeme.io funnel. Write proper email sequences. Do a proper launch." }, { icon: "💰", title: "Week 4 — Promote and scale", desc: "Reinvest early revenue into better tools. Canva Pro and a domain are your first upgrades." }] },
+        some: { title: "Your £50/month Intermediate Stack", sub: "Solid budget, real results. Here's the optimal setup for your experience level.", tools: [systemio, canva, notion, gumroad], roadmap: [{ icon: "🗺️", title: "Week 1 — Plan your product ecosystem", desc: "Map 4–5 products at different price points. Think about upsells and bundles from the start." }, { icon: "⚙️", title: "Week 2 — Build your full system", desc: "Complete Systeme.io setup with full automation. Spend proper time here — it runs everything." }, { icon: "📣", title: "Week 3 — Multi-channel promotion", desc: "Blog, Reddit, Facebook groups, Quora. Hit all channels simultaneously for your launch." }, { icon: "🔁", title: "Week 4 — Refine and launch", desc: "Go live and iterate fast. Test two different price points in the first two weeks." }] },
+        comfortable: { title: "Your Advanced £50/month Stack", sub: "The full professional setup. No shortcuts needed at this budget.", tools: [systemio, notion, gumroad, canva], roadmap: [{ icon: "🏗️", title: "Week 1 — Full architecture", desc: "Build your complete business system: funnel, email sequences, product suite, upsell chain." }, { icon: "📊", title: "Week 2 — Analytics setup", desc: "Set up Google Analytics on your site and Systeme.io tracking. Data-driven decisions from day one." }, { icon: "✍️", title: "Week 3 — Content machine", desc: "Write 5 SEO articles in one week. Batch produce. Link them all together and to your products." }, { icon: "🚀", title: "Week 4 — Launch and optimise", desc: "Go live. Review data daily for the first two weeks. Optimise conversion rate before adding more traffic." }] }
+      }
+    },
+    email: {
+      zero: {
+        beginner: { title: "Your Free Email List Building Stack", sub: "Everything you need to build your first email list from scratch — completely free.", tools: [systemio, canva, gdocs, groovefunnels], roadmap: [{ icon: "🎁", title: "Week 1 — Create your lead magnet", desc: "Write a free PDF guide in Google Docs. Design it in Canva. Give people a reason to hand over their email." }, { icon: "📄", title: "Week 2 — Build your opt-in page", desc: "Create a simple landing page in Systeme.io. One headline, one button. Get it live and tested." }, { icon: "📧", title: "Week 3 — Write your welcome sequence", desc: "Write 3–5 emails that go out automatically. Deliver the freebie, introduce yourself, share value." }, { icon: "📣", title: "Week 4 — Drive traffic", desc: "Share your landing page in relevant Facebook groups, Reddit threads, and forums. Focus on being genuinely helpful." }] },
+        some: { title: "Your Intermediate Email Stack — Free", sub: "More automation power, still zero cost. Built for someone who knows their way around.", tools: [systemio, canva, mailerlite, groovefunnels], roadmap: [{ icon: "🏗️", title: "Week 1 — Full system setup", desc: "Get Systeme.io or MailerLite running with landing pages, sequences, and segmentation." }, { icon: "🎁", title: "Week 2 — Lead magnet suite", desc: "Create two lead magnets for different audience segments. More options means more conversions." }, { icon: "🔀", title: "Week 3 — Traffic diversification", desc: "Blog content for SEO, social sharing, and community posts. Don't rely on just one traffic source." }, { icon: "💰", title: "Week 4 — Monetise your list", desc: "Add your affiliate links naturally into your email sequence. Recommend tools you genuinely use." }] },
+        comfortable: { title: "Your Advanced Free Email Stack", sub: "The full automation setup used by serious list builders — all free.", tools: [systemio, mailerlite, canva, groovefunnels], roadmap: [{ icon: "⚙️", title: "Week 1 — Full automation build", desc: "Build complete email sequences in Systeme.io with segmentation, tagging, and conditional logic." }, { icon: "🎯", title: "Week 2 — Segmented lead magnets", desc: "Create separate funnels for each audience segment. Targeted sequences convert far better than generic ones." }, { icon: "✍️", title: "Week 3 — SEO content funnel", desc: "Write 3 blog posts that funnel readers toward your opt-in. Each post answers one question your audience has." }, { icon: "📊", title: "Week 4 — Test and optimise", desc: "A/B test subject lines. Check open rates and click rates. Small improvements in these numbers compound dramatically." }] }
+      },
+      low: { zero: null,
+        beginner: { title: "Your Email Stack (Under £20/month)", sub: "A small budget makes your email setup significantly more powerful.", tools: [systemio, canva, mailerlite, gdocs], roadmap: [{ icon: "🎁", title: "Week 1 — Create a high-value lead magnet", desc: "Make it genuinely useful — a specific checklist, swipe file, or short guide on one real problem." }, { icon: "📄", title: "Week 2 — Landing page and sequence", desc: "Build a clean landing page and a 5-email welcome sequence. Keep it simple and human." }, { icon: "📣", title: "Week 3 — Get your first 50 subscribers", desc: "Post in communities, answer questions, share your lead magnet. 50 real subscribers is your first milestone." }, { icon: "💰", title: "Week 4 — Monetise", desc: "Add one affiliate recommendation to email 4 or 5 of your sequence. Keep it honest and relevant." }] },
+        some: { title: "Your £20/month Email Stack", sub: "Solid setup for someone with experience and a small budget.", tools: [systemio, canva, mailerlite, groovefunnels], roadmap: [{ icon: "🏗️", title: "Week 1 — Full system build", desc: "Get your complete list-building funnel live in Systeme.io. Don't skip the automation setup." }, { icon: "🎯", title: "Week 2 — Audience segmentation", desc: "Tag subscribers based on how they joined and what they click. Segmented lists earn more." }, { icon: "📊", title: "Week 3 — Track everything", desc: "Open rates, click rates, unsubscribes. Know your numbers from week one." }, { icon: "💰", title: "Week 4 — Monetisation sequence", desc: "Build a 7-email monetisation sequence that delivers value and recommends your affiliate tools naturally." }] },
+        comfortable: { title: "Your Advanced £20/month Email Stack", sub: "Power user setup for technical people with a sensible budget.", tools: [systemio, mailerlite, groovefunnels, canva], roadmap: [{ icon: "⚙️", title: "Week 1 — Full automation architecture", desc: "Build multi-sequence automation with branching logic. Different behaviour = different emails." }, { icon: "🎯", title: "Week 2 — Advanced segmentation", desc: "Segment by interest, engagement level, and purchase behaviour from day one." }, { icon: "✍️", title: "Week 3 — Content-to-list funnel", desc: "Build a full SEO content funnel. Every article feeds into your list. Every list subscriber gets nurtured toward a purchase." }, { icon: "📊", title: "Week 4 — Optimise ruthlessly", desc: "Cut what's not working. Double what is. Email marketing rewards data-driven iteration above everything else." }] }
+      },
+      mid: {
+        beginner: { title: "Your £50/month Email Stack", sub: "With this budget you can build a genuinely professional list-building system.", tools: [systemio, canva, mailerlite, gdocs], roadmap: [{ icon: "🎁", title: "Week 1 — Premium lead magnet", desc: "Create something genuinely impressive — a detailed guide, a template pack, or a short video course." }, { icon: "📄", title: "Week 2 — Full funnel build", desc: "Landing page, thank you page, upsell page, 5-email welcome sequence. Build the whole thing." }, { icon: "📣", title: "Week 3 — Multi-channel traffic", desc: "Blog, communities, and consider a small paid boost on Facebook to your best-performing post." }, { icon: "💰", title: "Week 4 — Full monetisation", desc: "Implement a full affiliate email sequence. 7 emails, natural recommendations, genuine value throughout." }] },
+        some: { title: "Your Intermediate £50/month Email Stack", sub: "Serious setup for a serious list builder.", tools: [systemio, mailerlite, canva, groovefunnels], roadmap: [{ icon: "🗺️", title: "Week 1 — Strategy first", desc: "Map your full audience journey from stranger to subscriber to buyer before building anything." }, { icon: "⚙️", title: "Week 2 — Build your infrastructure", desc: "Full automation, segmentation, and funnel setup. Invest the time now, it pays back for years." }, { icon: "📣", title: "Week 3 — Aggressive promotion", desc: "Blog, Reddit, Facebook groups, Quora answers, guest posts. Hit every free channel hard." }, { icon: "💰", title: "Week 4 — Monetise and scale", desc: "Full affiliate and product recommendation sequences. Track revenue per subscriber and optimise." }] },
+        comfortable: { title: "Your Advanced £50/month Email Stack", sub: "The professional-grade setup — built to scale.", tools: [systemio, mailerlite, canva, groovefunnels], roadmap: [{ icon: "🏗️", title: "Week 1 — Full architecture build", desc: "Complete multi-sequence automation with advanced segmentation and tagging from day one." }, { icon: "📊", title: "Week 2 — Analytics and tracking", desc: "Full UTM tracking, conversion tracking, and revenue attribution set up properly." }, { icon: "✍️", title: "Week 3 — Content engine", desc: "5 SEO articles published, all feeding into your list. Content should be your primary acquisition channel." }, { icon: "🔁", title: "Week 4 — Test and scale", desc: "Run A/B tests on subject lines, CTAs, and send times. Optimise before scaling traffic." }] }
+      }
+    },
+    affiliate: {
+      zero: {
+        beginner: { title: "Your Free Affiliate Marketing Starter Stack", sub: "The simplest path to your first affiliate commission — zero cost, beginner-friendly.", tools: [systemio, groovefunnels, canva, gdocs], roadmap: [{ icon: "✍️", title: "Week 1 — Build your content base", desc: "Write 2–3 blog posts or guides on topics related to the tools you're promoting. Teach first, pitch second." }, { icon: "🔗", title: "Week 2 — Place your affiliate links naturally", desc: "Add your links to tools you genuinely recommend within your content. Never force a recommendation that doesn't fit." }, { icon: "📄", title: "Week 3 — Create a tools resource page", desc: "Build a 'Tools I Use' page listing every tool with your affiliate link and an honest one-line review." }, { icon: "📣", title: "Week 4 — Drive traffic", desc: "Share your content in communities where beginners ask questions about tools and online business." }] },
+        some: { title: "Your Intermediate Free Affiliate Stack", sub: "More strategic, more automated, still completely free.", tools: [systemio, groovefunnels, canva, mailerlite], roadmap: [{ icon: "🏗️", title: "Week 1 — Content and funnel strategy", desc: "Map your content topics to specific affiliate tools. Each piece of content should naturally lead to one recommendation." }, { icon: "✍️", title: "Week 2 — Create comparison content", desc: "'Tool A vs Tool B' and 'Best free X' articles are the highest-converting affiliate content formats." }, { icon: "📧", title: "Week 3 — Email sequence with affiliate links", desc: "Build a 5-email welcome sequence with natural tool recommendations throughout." }, { icon: "📊", title: "Week 4 — Track and optimise", desc: "Check which affiliate links get clicked. Write more content around the topics that drive clicks." }] },
+        comfortable: { title: "Your Advanced Free Affiliate Stack", sub: "Full system for a tech-comfortable affiliate marketer with no budget.", tools: [systemio, groovefunnels, mailerlite, canva], roadmap: [{ icon: "⚙️", title: "Week 1 — Full system architecture", desc: "Build your complete affiliate funnel: blog content → email list → automated sequence → recommendations." }, { icon: "✍️", title: "Week 2 — SEO content blitz", desc: "Write 5 articles in one week. Focus on buyer-intent keywords: 'best X for beginners', 'X review', 'X vs Y'." }, { icon: "📊", title: "Week 3 — Tracking setup", desc: "Set up proper click tracking on your affiliate links. Know which content drives the most revenue." }, { icon: "🔁", title: "Week 4 — Double down on winners", desc: "Identify your top 2 performing articles. Write follow-up content around those topics. Create a content cluster." }] }
+      },
+      low: {
+        beginner: { title: "Your Affiliate Stack (Under £20/month)", sub: "Small budget, smart spend. Here's where to put it for maximum affiliate results.", tools: [systemio, groovefunnels, canva, gdocs], roadmap: [{ icon: "📝", title: "Week 1 — Content creation", desc: "Write honest, helpful content around the tools you promote. Reviews, tutorials, comparisons." }, { icon: "📄", title: "Week 2 — Landing pages and lead magnets", desc: "Create a free guide that naturally leads to your affiliate tools. Build the landing page in Systeme.io or GrooveFunnels." }, { icon: "📧", title: "Week 3 — Email sequence", desc: "Build a short email sequence for people who download your guide. Include natural tool recommendations." }, { icon: "💰", title: "Week 4 — Traffic push", desc: "Promote in communities, answer questions, share your content. Focus on platforms where your audience asks tool questions." }] },
+        some: { title: "Your £20/month Intermediate Affiliate Stack", sub: "More reach, more automation, better results.", tools: [systemio, groovefunnels, mailerlite, canva], roadmap: [{ icon: "🗺️", title: "Week 1 — Content map", desc: "Plan 10 articles targeting specific buyer-intent affiliate keywords. Build these over the coming weeks." }, { icon: "⚙️", title: "Week 2 — Funnel setup", desc: "Build your complete affiliate funnel in Systeme.io — opt-in, sequence, and tool recommendations." }, { icon: "✍️", title: "Week 3 — Content production", desc: "Publish 3 of your planned articles. Focus on comparison and 'best of' formats." }, { icon: "📊", title: "Week 4 — Track and optimise", desc: "Use your affiliate dashboards to see what's converting. Write more content around winning topics." }] },
+        comfortable: { title: "Your £20/month Advanced Affiliate Stack", sub: "Technical setup for maximum affiliate revenue with minimal spend.", tools: [systemio, mailerlite, groovefunnels, canva], roadmap: [{ icon: "⚙️", title: "Week 1 — Full infrastructure", desc: "Complete funnel, tracking setup, email automation, and content architecture all in week one." }, { icon: "✍️", title: "Week 2 — Content blitz", desc: "Publish 5 SEO articles. Target long-tail buyer-intent keywords your competitors have missed." }, { icon: "📊", title: "Week 3 — Data and optimisation", desc: "Review click data, conversion rates, and traffic sources. Cut what's not working." }, { icon: "🚀", title: "Week 4 — Scale winning channels", desc: "Double your output on whatever channel drove the most clicks. Consistency beats perfection." }] }
+      },
+      mid: {
+        beginner: { title: "Your £50/month Affiliate Starter Stack", sub: "With this budget you can build a proper affiliate income system.", tools: [systemio, groovefunnels, canva, mailerlite], roadmap: [{ icon: "📝", title: "Week 1 — Content and brand", desc: "Create your content hub with proper branding. Use Canva to create a consistent visual identity." }, { icon: "📄", title: "Week 2 — Funnel build", desc: "Build a proper affiliate funnel: free guide → email list → automated recommendations." }, { icon: "📣", title: "Week 3 — Multi-channel promotion", desc: "Blog, communities, email, and consider a small paid boost to your best content." }, { icon: "💰", title: "Week 4 — Optimise for first commission", desc: "Focus on getting your first tracked click, then your first conversion. Build from there." }] },
+        some: { title: "Your £50/month Intermediate Affiliate Stack", sub: "Serious budget, serious results.", tools: [systemio, mailerlite, groovefunnels, canva], roadmap: [{ icon: "🏗️", title: "Week 1 — Full system build", desc: "Complete affiliate funnel with full automation, email sequences, and tracking from day one." }, { icon: "✍️", title: "Week 2 — Content production", desc: "Publish 4 articles. Mix of reviews, comparisons, and tutorial content." }, { icon: "📊", title: "Week 3 — Analytics and tracking", desc: "Full UTM tracking and conversion setup. Know exactly where every click comes from." }, { icon: "🔁", title: "Week 4 — Scale and iterate", desc: "Double your best-performing content type. Test new affiliate partnerships alongside your current ones." }] },
+        comfortable: { title: "Your Advanced £50/month Affiliate Stack", sub: "The professional affiliate setup for serious results.", tools: [systemio, mailerlite, groovefunnels, canva], roadmap: [{ icon: "⚙️", title: "Week 1 — Architecture and tracking", desc: "Complete system with advanced tracking, segmentation, and attribution." }, { icon: "✍️", title: "Week 2 — Content and SEO", desc: "5 articles targeting high-value buyer-intent keywords. Build content clusters around each tool you promote." }, { icon: "📊", title: "Week 3 — Revenue optimisation", desc: "A/B test your CTAs, landing pages, and email sequences. Small improvements multiply across your traffic." }, { icon: "🚀", title: "Week 4 — Scale aggressively", desc: "Identify your top earning affiliate partnerships. Produce more content around those tools and audiences." }] }
+      }
+    },
+    all: {
+      zero: {
+        beginner: { title: "Your Complete Free Online Business Stack", sub: "Everything you need to start a full online income system from scratch — digital products, email list, and affiliate income — all free.", tools: [systemio, canva, gdocs, groovefunnels], roadmap: [{ icon: "🏗️", title: "Week 1 — Set up your base", desc: "Create your Systeme.io account. Build one landing page. Write a simple lead magnet in Google Docs." }, { icon: "📦", title: "Week 2 — Create your first product", desc: "Design and upload a simple ebook or template. Price it at £7–12. Get it live." }, { icon: "🔗", title: "Week 3 — Add affiliate links", desc: "Add your affiliate recommendations to your email sequence and a dedicated tools page." }, { icon: "💰", title: "Week 4 — Drive traffic", desc: "Share your content in communities. Answer questions. Get your first real visitors who aren't friends or family." }] },
+        some: { title: "Your Complete Free Stack — Intermediate", sub: "A full system with serious automation power, zero cost.", tools: [systemio, canva, mailerlite, groovefunnels], roadmap: [{ icon: "🗺️", title: "Week 1 — Map your whole system", desc: "Plan your content topics, product ideas, and affiliate partnerships before building anything." }, { icon: "⚙️", title: "Week 2 — Full system build", desc: "Complete Systeme.io setup: funnel, email sequences, product store, and affiliate link placement." }, { icon: "📦", title: "Week 3 — Launch your first product", desc: "Go live with one digital product. Promote it in communities. Get data from real visitors." }, { icon: "📊", title: "Week 4 — Analyse and add income streams", desc: "Review what's getting traction. Add a second product or affiliate partnership in the area that's performing." }] },
+        comfortable: { title: "Your Complete Advanced Free Stack", sub: "The full professional online business system — no shortcuts, no cost.", tools: [systemio, mailerlite, canva, groovefunnels], roadmap: [{ icon: "🏗️", title: "Week 1 — Full architecture", desc: "Complete system design: content strategy, funnel architecture, product line plan, and email sequence map." }, { icon: "⚙️", title: "Week 2 — Build everything", desc: "Full Systeme.io setup, complete email automation, product pages, and affiliate link integration." }, { icon: "✍️", title: "Week 3 — Content and SEO", desc: "Publish 5 articles targeting buyer-intent keywords. Link to your products and affiliate tools throughout." }, { icon: "🚀", title: "Week 4 — Launch and optimise", desc: "Go fully live. Track everything. Optimise your top-traffic entry points for conversions first." }] }
+      },
+      low: {
+        beginner: { title: "Your Complete Business Stack (Under £20/month)", sub: "A small investment buys you a significantly more powerful complete system.", tools: [systemio, canva, mailerlite, groovefunnels], roadmap: [{ icon: "🏗️", title: "Week 1 — Foundation", desc: "Get Systeme.io and your email tool set up. Build your landing page and first welcome sequence." }, { icon: "📦", title: "Week 2 — Your first product", desc: "Create and launch a simple ebook or template. Get it live and linked from your email sequence." }, { icon: "🔗", title: "Week 3 — Affiliate integration", desc: "Add your affiliate tools to your content and email sequence. Natural, relevant recommendations only." }, { icon: "💰", title: "Week 4 — Traffic and sales", desc: "Promote in communities, publish your first blog post, and aim for your first combined product + affiliate click in the same week." }] },
+        some: { title: "Your £20/month Complete Business Stack", sub: "Solid setup for all three income streams with a small budget.", tools: [systemio, mailerlite, canva, groovefunnels], roadmap: [{ icon: "🗺️", title: "Week 1 — Strategy and system", desc: "Map all three income streams. Build your complete Systeme.io infrastructure." }, { icon: "📦", title: "Week 2 — Products and content", desc: "Create two products and write three blog posts linking to both your products and affiliate tools." }, { icon: "📧", title: "Week 3 — Email monetisation", desc: "Build a full monetisation sequence: value → product recommendation → affiliate recommendation." }, { icon: "📊", title: "Week 4 — Track and scale winners", desc: "Which income stream got the first click? Put more effort there and build the others up over time." }] },
+        comfortable: { title: "Your Advanced £20/month Complete Stack", sub: "Full professional three-stream income system.", tools: [systemio, mailerlite, groovefunnels, canva], roadmap: [{ icon: "⚙️", title: "Week 1 — Full system architecture", desc: "Build everything at once: funnels, sequences, product pages, tracking, and affiliate link integration." }, { icon: "✍️", title: "Week 2 — Content engine", desc: "Publish 5 articles across all three income stream topics. Internal linking strategy from day one." }, { icon: "📊", title: "Week 3 — Data and optimisation", desc: "Full analytics review. Know your traffic sources, conversion rates, and revenue per visitor." }, { icon: "🚀", title: "Week 4 — Scale and compound", desc: "Identify your best-performing income stream and add more fuel to it. Build the others systematically." }] }
+      },
+      mid: {
+        beginner: { title: "Your £50/month Complete Business Stack", sub: "With this budget you can build a genuinely professional three-stream income system.", tools: [systemio, canva, mailerlite, groovefunnels], roadmap: [{ icon: "🏗️", title: "Week 1 — Full foundation", desc: "Complete setup across all tools. Don't rush this — a solid foundation prevents problems later." }, { icon: "📦", title: "Week 2 — Products and funnels", desc: "Create two products and build a full sales funnel for each one in Systeme.io." }, { icon: "📣", title: "Week 3 — Launch properly", desc: "Drive traffic from multiple channels simultaneously. Blog, communities, email, all at once." }, { icon: "💰", title: "Week 4 — Monetise and measure", desc: "Track every click and conversion. Invest next month's budget into whatever is performing best." }] },
+        some: { title: "Your £50/month Intermediate Complete Stack", sub: "The full system for someone with experience and a proper budget.", tools: [systemio, mailerlite, canva, groovefunnels], roadmap: [{ icon: "🗺️", title: "Week 1 — Master plan", desc: "Map your entire system: content calendar, product roadmap, affiliate partnerships, and email strategy." }, { icon: "⚙️", title: "Week 2 — Build everything", desc: "Full system build across all tools. Complete automation, full product suite, affiliate integration." }, { icon: "📊", title: "Week 3 — Data-driven launch", desc: "Go live with proper tracking. Know your numbers from day one." }, { icon: "🚀", title: "Week 4 — Scale and compound", desc: "Identify top performers across all three income streams. Compound the winners." }] },
+        comfortable: { title: "Your Complete Advanced £50/month Stack", sub: "The full professional setup — everything working together.", tools: [systemio, mailerlite, groovefunnels, canva], roadmap: [{ icon: "⚙️", title: "Week 1 — Complete architecture", desc: "Full system design and build. Advanced automation, complete tracking, full product suite." }, { icon: "✍️", title: "Week 2 — Content machine", desc: "7 articles published in week two. Build content clusters around each income stream." }, { icon: "📊", title: "Week 3 — Optimise everything", desc: "Review all data. A/B test top pages. Optimise your email sequence open rates and CTRs." }, { icon: "🚀", title: "Week 4 — Scale aggressively", desc: "Full launch across all channels. Reinvest early revenue into your best-performing income stream." }] }
+      }
+    }
+  };
+
+  try {
+    const budgetKey = budget === 'mid' ? 'mid' : budget === 'low' ? 'low' : 'zero';
+    return stacks[goal][budgetKey][level] || stacks[goal]['zero']['beginner'];
+  } catch(e) {
+    return stacks['all']['zero']['beginner'];
+  }
+}
+
+function buildStack() {
+  const stack = getStack(answers.goal, answers.budget, answers.level);
+
+  // update progress
+  ['ps1','ps2','ps3'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    el.classList.remove('active');
+    el.classList.add('done');
+    document.getElementById('pc' + (i+1)).textContent = '✓';
+    document.getElementById('pl' + (i+1)).classList.add('done');
+  });
+  document.getElementById('ps4').classList.add('active');
+
+  document.getElementById('step3').style.display = 'none';
+
+  document.getElementById('result-title').textContent = stack.title;
+  document.getElementById('result-sub').textContent = stack.sub;
+
+  const toolsList = document.getElementById('tools-list');
+  toolsList.innerHTML = '';
+  stack.tools.forEach((t, i) => {
+    toolsList.innerHTML += `
+      <div class="tool-card">
+        <div class="tool-num">${i+1}</div>
+        <div class="tool-info">
+          <div class="tool-name">${t.name} <span class="tool-tag">${t.tag}</span></div>
+          <div class="tool-desc">${t.desc}</div>
+          <a href="${t.link}" target="_blank" class="tool-link">${t.linkText}</a>
+        </div>
+      </div>`;
+  });
+
+  const roadmap = document.getElementById('roadmap-steps');
+  roadmap.innerHTML = '';
+  stack.roadmap.forEach(r => {
+    roadmap.innerHTML += `
+      <div class="roadmap-step">
+        <div class="roadmap-dot">${r.icon}</div>
+        <div class="roadmap-content">
+          <div class="roadmap-title">${r.title}</div>
+          <div class="roadmap-desc">${r.desc}</div>
+        </div>
+      </div>`;
+  });
+
+  const result = document.getElementById('result');
+  result.classList.add('visible');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function copyLink() {
+  navigator.clipboard.writeText('https://www.thebudgetsolopreneur.net');
+  const btn = event.target;
+  btn.textContent = '✓ Copied!';
+  setTimeout(() => btn.textContent = '📋 Copy link', 2000);
+}
+
+function restart() {
+  answers.goal = null; answers.budget = null; answers.level = null;
+  ['ps1','ps2','ps3','ps4'].forEach((id,i) => {
+    const el = document.getElementById(id);
+    el.classList.remove('active','done');
+    const pc = document.getElementById('pc'+(i+1));
+    if(pc) pc.textContent = i+1;
+  });
+  ['pl1','pl2','pl3'].forEach(id => document.getElementById(id).classList.remove('done'));
+  document.getElementById('ps1').classList.add('active');
+  document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  ['next1','next2','next3'].forEach(id => document.getElementById(id).disabled = true);
+  document.getElementById('step1').style.display = 'block';
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('step3').style.display = 'none';
+  document.getElementById('result').classList.remove('visible');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
